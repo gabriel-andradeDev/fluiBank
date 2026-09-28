@@ -29,7 +29,6 @@ class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
     @MockitoBean
     private UserRepository userRepository;
 
