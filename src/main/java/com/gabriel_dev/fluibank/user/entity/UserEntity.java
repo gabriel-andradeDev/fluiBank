@@ -1,5 +1,6 @@
 package com.gabriel_dev.fluibank.user.entity;
 
+import com.gabriel_dev.fluibank.account.entity.AccountEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,6 +40,9 @@ public class UserEntity implements UserDetails {
 
     @Column(nullable = false)
     private boolean active;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private AccountEntity account;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
