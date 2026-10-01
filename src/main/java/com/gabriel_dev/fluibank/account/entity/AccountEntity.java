@@ -1,6 +1,7 @@
 package com.gabriel_dev.fluibank.account.entity;
 
 import com.gabriel_dev.fluibank.user.entity.UserEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,6 +31,7 @@ public class AccountEntity {
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
+    @JsonIgnore
     private UserEntity user;
 
     @CreationTimestamp
