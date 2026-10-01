@@ -1,7 +1,10 @@
 package com.gabriel_dev.fluibank.user.entity;
 
+import com.gabriel_dev.fluibank.account.entity.AccountEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -40,10 +43,13 @@ public class UserEntity implements UserDetails {
     @Column(nullable = false)
     private boolean active;
 
-    @Column(name = "created_at", nullable = false)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private AccountEntity account;
+
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     @Override
