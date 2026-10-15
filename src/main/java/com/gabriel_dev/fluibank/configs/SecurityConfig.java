@@ -1,5 +1,6 @@
 package com.gabriel_dev.fluibank.configs;
 
+import com.gabriel_dev.fluibank.user.enums.UserRole;
 import com.gabriel_dev.fluibank.user.repository.UserRepository;
 import jakarta.servlet.DispatcherType;
 import lombok.AllArgsConstructor;
@@ -32,7 +33,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers("/api/auth").permitAll()
-                        .requestMatchers("/api/user").permitAll()
+                        .requestMatchers("/api/user").hasRole(UserRole.ADMIN.name())
+                        .requestMatchers("/api/user/register").permitAll()
+                        .requestMatchers("/api/account").hasRole(UserRole.ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .build();
