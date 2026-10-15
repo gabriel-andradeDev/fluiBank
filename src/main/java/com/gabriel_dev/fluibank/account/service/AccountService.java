@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -36,5 +37,15 @@ public class AccountService {
         accountRepository.save(accountEntity);
     }
 
+    public List<ResponseAccountDTO> getAllAccounts() {
+        return accountRepository.findAll().stream()
+                .map(account -> ResponseAccountDTO.builder()
+                        .id(account.getId())
+                        .numberAccount(account.getNumberAccount())
+                        .balance(account.getBalance())
+                        .userName(account.getUser().getName())
+                        .build())
+                .toList();
+    }
 
 }
