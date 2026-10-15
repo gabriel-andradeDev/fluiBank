@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/user")
@@ -23,8 +25,8 @@ public class UserController {
 
 
     @GetMapping
-    public String getUsers() {
-        return "Hello World!";
+    public List<ResponseUserDTO> getUsers() {
+        return this.userService.getUsers();
     }
 
     @PostMapping("/register")
