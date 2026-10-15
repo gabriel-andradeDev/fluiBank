@@ -33,8 +33,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers("/api/auth").permitAll()
-                        .requestMatchers("/api/user/**").permitAll()
-                        .requestMatchers("/api/account/**").hasRole(UserRole.ADMIN.name())
+                        .requestMatchers("/api/user").hasRole(UserRole.ADMIN.name())
+                        .requestMatchers("/api/user/register").permitAll()
+                        .requestMatchers("/api/account").hasRole(UserRole.ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .build();
