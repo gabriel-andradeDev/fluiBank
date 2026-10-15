@@ -6,6 +6,7 @@ import com.gabriel_dev.fluibank.account.service.AccountService;
 import com.gabriel_dev.fluibank.user.dto.CreateUserDTO;
 import com.gabriel_dev.fluibank.user.dto.ResponseUserDTO;
 import com.gabriel_dev.fluibank.user.entity.UserEntity;
+import com.gabriel_dev.fluibank.user.enums.UserRole;
 import com.gabriel_dev.fluibank.user.mapper.ResponseMapper;
 import com.gabriel_dev.fluibank.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -14,6 +15,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -38,11 +41,19 @@ public class UserService {
                 .cpf(userDTO.getCpf())
                 .phone(userDTO.getPhone())
                 .active(true)
+                .role(UserRole.USER)
                 .build();
 
         userRepository.save(userEntity);
         accountService.createAccount(userEntity);
         ResponseUserDTO responseUserDTO = responseMapper.toResponseUserDTO(userEntity);
         return ResponseEntity.ok(responseUserDTO);
+    }
+
+    public List<ResponseUserDTO> getUsers() {
+        List<UserEntity> users = userRepository.findAll();
+        return users.stream()
+                .map(responseMapper::toResponseUserDTO)
+                .toList();
     }
 }
