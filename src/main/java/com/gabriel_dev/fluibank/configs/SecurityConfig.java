@@ -6,6 +6,7 @@ import jakarta.servlet.DispatcherType;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -36,7 +37,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/user").hasRole(UserRole.ADMIN.name())
                         .requestMatchers("/api/user/register").permitAll()
                         .requestMatchers("/api/account").hasRole(UserRole.ADMIN.name())
-                        .requestMatchers("/api/account/deposit").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/deposit").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/deposit").hasRole(UserRole.ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .build();
