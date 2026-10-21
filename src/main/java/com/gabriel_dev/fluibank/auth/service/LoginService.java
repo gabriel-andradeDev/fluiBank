@@ -21,22 +21,23 @@ public class LoginService {
     private final UserRepository userRepository;
 
     public ResponseLogin login(LoginDTO loginDTO) {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginDTO.getEmail(),
-                            loginDTO.getPassword()
-                    )
-            );
+        UserEntity verifyUser = userRepository.findByEmail(loginDTO.getEmail())
+                .orElseThrow(() -> new IllegalStateException("Usuário não encontrado"));
 
-        } catch (Exception ex) {
-            throw new IllegalStateException("Falha na autenticação: " + ex.getMessage());
+        if (!verifyUser.isActive()) {
+            throw new IllegalStateException("Usuário inativo");
         }
 
-        UserEntity user = userRepository.findByEmail(loginDTO.getEmail())
-                .orElseThrow(() -> new IllegalStateException("Usuário autenticado não encontrado"));
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginDTO.getEmail(),
+                        loginDTO.getPassword()
+                )
+        );
 
-        String token = jwtService.generateToken(user);
+        System.out.println("Usuário autenticado: " + verifyUser.isActive());
+
+        String token = jwtService.generateToken(verifyUser);
         return new ResponseLogin(token);
     }
 }
