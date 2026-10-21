@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/user").hasRole(UserRole.ADMIN.name())
                         .requestMatchers("/api/user/register").permitAll()
                         .requestMatchers("/api/account").hasRole(UserRole.ADMIN.name())
+                        .requestMatchers("/api/account/deposit").permitAll()
                         .anyRequest().authenticated()
                 )
                 .build();
