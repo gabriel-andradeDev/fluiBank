@@ -15,4 +15,5 @@ public class ResponseUserDTO {
     private String cpf;
     private String phone;
     private AccountEntity account;
+    private boolean active;
 }
