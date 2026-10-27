@@ -9,6 +9,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ResponsePixKeyDTO {
 
+    private Long id;
+
     private String type;
 
     private String key;
