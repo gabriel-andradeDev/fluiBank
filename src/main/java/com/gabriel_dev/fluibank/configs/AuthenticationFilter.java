@@ -9,11 +9,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 @AllArgsConstructor
@@ -35,7 +37,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             String email = jwtService.extractSubject(token);
             UserEntity user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("Usuário do token não encontrado"));
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
             authentication.setDetails(user);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception e) {
