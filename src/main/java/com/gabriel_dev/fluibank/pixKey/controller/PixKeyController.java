@@ -2,7 +2,6 @@ package com.gabriel_dev.fluibank.pixKey.controller;
 
 import com.gabriel_dev.fluibank.pixKey.dto.CreatePixKeyDTO;
 import com.gabriel_dev.fluibank.pixKey.dto.ResponsePixKeyDTO;
-import com.gabriel_dev.fluibank.pixKey.entity.PixKeyEntity;
 import com.gabriel_dev.fluibank.pixKey.service.PixKeyService;
 import com.gabriel_dev.fluibank.user.entity.UserEntity;
 import lombok.AllArgsConstructor;
@@ -28,5 +27,10 @@ public class PixKeyController {
     public String createPixKey(@RequestBody CreatePixKeyDTO createPixKeyDTO, @CurrentSecurityContext(expression = "authentication.principal")UserEntity user) throws BadRequestException {
         pixKeyService.createPixKey(createPixKeyDTO, user);
         return "Pix Key created";
+    }
+
+    @DeleteMapping("/{id}")
+    public void deletePixKey(@PathVariable Long id) {
+        pixKeyService.deletePixKey(id);
     }
 }
