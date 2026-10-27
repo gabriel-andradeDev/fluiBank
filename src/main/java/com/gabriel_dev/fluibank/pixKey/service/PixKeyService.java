@@ -37,4 +37,8 @@ public class PixKeyService {
         pixKeyRepository.save(pixKeyEntity);
         return "Pix Key created successfully!";
     }
+
+    public void deletePixKey(Long id) {
+        pixKeyRepository.deleteById(id);
+    }
 }
